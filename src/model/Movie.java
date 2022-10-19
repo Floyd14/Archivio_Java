@@ -1,13 +1,17 @@
+package src.model;
+
 public class Movie {
 
     private static int counter = 0;
     private final int id;
     private final String titolo;
     private final String autore;
-    private int anno;
+    private final int anno;
 
     // default const
     public Movie(String titolo, String autore, int anno) {
+        super();
+
         this.titolo = titolo;
         this.autore = autore;
         this.anno = anno;

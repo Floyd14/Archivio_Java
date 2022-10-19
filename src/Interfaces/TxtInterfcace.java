@@ -1,11 +1,6 @@
-package Interfaces;
+package src.Interfaces;
 
-import java.awt.*;
 import java.io.*;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
 
 public class TxtInterfcace implements Interface {
     private final File file = new File("filename.txt");
