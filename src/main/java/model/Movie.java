@@ -1,7 +1,9 @@
 package model;
 
-import java.util.logging.Logger;
+import lombok.extern.log4j.Log4j2;
 
+
+@Log4j2
 public class Movie {
 
     private static int counter = 0;
@@ -9,8 +11,6 @@ public class Movie {
     private final String titolo;
     private final String autore;
     private final int anno;
-
-    private static final Logger LOGGER = Logger.getLogger( Movie.class.getName() );
 
 
     public Movie(String titolo, String autore, int anno) {
@@ -21,8 +21,7 @@ public class Movie {
         this.anno = anno;
 
         this.id = counter++;
-
-        LOGGER.info("Logging an INFO-level message");
+        log.info("Created movie's id: " + id);
     }
 
     public String getTitolo() {

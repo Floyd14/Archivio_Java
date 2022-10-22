@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
 
 import static java.nio.charset.Charset.defaultCharset;
 
@@ -21,16 +22,11 @@ public class TxtInterface implements Interface {
         } catch (Exception e) {
             System.err.println("An error occurred on" + bufferedWriter);
         }
-
-//        try {
-//            OutputStream os = Files.newOutputStream(filePath);
-//        } catch (Exception e) {
-//
-//        }
     }
 
     @Override
     public void connect(Path filePath) {
+
         boolean exists = Files.exists(filePath);
         System.out.println("exists = " + exists);
     }
@@ -39,9 +35,10 @@ public class TxtInterface implements Interface {
     public void disconnect() {}
 
     @Override
-    public void writeLine(){
+    public void writeLine(Map movieMap){
+
         try {
-            this.bufferedWriter.write("Prova\n");
+            this.bufferedWriter.write(movieMap.toString() + "\n");
             this.bufferedWriter.flush();
         } catch (Exception e){
             System.err.println("An error occurred.");

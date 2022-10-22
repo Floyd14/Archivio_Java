@@ -8,11 +8,6 @@ import java.util.Scanner;
 public class DeleteMovieMenuCommand extends MenuCommand {
 
     @Override
-    public void execute() {
-
-    }
-
-    @Override
     public void execute(@NotNull Controller ctr) {
         ctr.listMovies();
         System.out.print("ID da eliminare:");
