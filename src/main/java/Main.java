@@ -1,13 +1,18 @@
-import src.view.Menu;
+import view.Menu;
 
 public class Main {
     public static void main(String[] args) {
 
-//        src.model.Movie esempio = new src.model.Movie(
+//        Movie esempio = new Movie(
 //                "The Matrix",
 //                "XXX",
 //                2000 );
-//
+
+       // Map map = esempio.toMap();
+
+        // 5. Convert to a string
+       // System.out.println(map);
+
 //        System.out.println(esempio);
 //
 //        src.model.Movie esempio2 = new src.model.Movie("The Matrix", "XXX", 2000 );

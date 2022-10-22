@@ -1,6 +1,6 @@
-package src.view;
+package view;
 
-import src.controller.Controller;
+import controller.Controller;
 
 public class ListMoviesMenuCommand extends MenuCommand {
 

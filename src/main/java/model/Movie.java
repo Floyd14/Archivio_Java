@@ -1,4 +1,6 @@
-package src.model;
+package model;
+
+import java.util.logging.Logger;
 
 public class Movie {
 
@@ -8,7 +10,9 @@ public class Movie {
     private final String autore;
     private final int anno;
 
-    // default const
+    private static final Logger LOGGER = Logger.getLogger( Movie.class.getName() );
+
+
     public Movie(String titolo, String autore, int anno) {
         super();
 
@@ -16,12 +20,28 @@ public class Movie {
         this.autore = autore;
         this.anno = anno;
 
-        // instance var
         this.id = counter++;
+
+        LOGGER.info("Logging an INFO-level message");
     }
 
-    // metodo static non estendibile
+    public String getTitolo() {
+
+        return titolo;
+    }
+
+    public String getAutore() {
+
+        return autore;
+    }
+
+    public int getAnno() {
+
+        return anno;
+    }
+
     public int getId() {
+
         return this.id;
     }
 

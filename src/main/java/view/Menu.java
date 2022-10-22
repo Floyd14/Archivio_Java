@@ -1,7 +1,7 @@
-package src.view;
+package view;
 
-import src.controller.Controller;
-import src.util.Constant;
+import controller.Controller;
+import util.Constant;
 
 import java.util.HashMap;
 import java.util.Scanner;

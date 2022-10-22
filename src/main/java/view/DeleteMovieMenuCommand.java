@@ -1,6 +1,6 @@
-package src.view;
+package view;
 
-import src.controller.Controller;
+import controller.Controller;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Scanner;

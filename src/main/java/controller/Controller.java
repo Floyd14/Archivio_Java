@@ -1,22 +1,30 @@
-package src.controller;
+package controller;
 
-import src.service.ArchivioService;
-import src.model.Movie;
+import service.ArchivioService;
+import model.Movie;
 
 public class Controller {
 
-    private final ArchivioService archivio = new ArchivioService(); //inizializzo sempre nel costruttoore
+    private final ArchivioService archivioService;
+
+    public Controller() {
+        this.archivioService = new ArchivioService();
+    }
+
     public void addMovie(String titolo, String autore, int anno){
+
         Movie movie = new Movie(titolo, autore, anno);
         //System.out.println(movie);
         //TxtInterfcace txtInterfcace = new TxtInterfcace();
-        archivio.addMovie(movie);
+        archivioService.addMovie(movie);
     }
     public void deleteMovie(int movieId){
-        archivio.deleteMovie(movieId);
+
+        archivioService.deleteMovie(movieId);
     }
 
     public void listMovies(){
-        archivio.listMovie();
+
+        archivioService.listMovie();
     }
 }
