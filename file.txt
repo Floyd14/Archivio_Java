@@ -1,0 +1,1 @@
+{id=0, Titolo=jj, Autore=uu, Anno=9}

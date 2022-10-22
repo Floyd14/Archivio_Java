@@ -1,5 +1,6 @@
 package model;
 
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
 
@@ -7,9 +8,13 @@ import lombok.extern.log4j.Log4j2;
 public class Movie {
 
     private static int counter = 0;
+    @Getter
     private final int id;
+    @Getter
     private final String titolo;
+    @Getter
     private final String autore;
+    @Getter
     private final int anno;
 
 
@@ -22,26 +27,6 @@ public class Movie {
 
         this.id = counter++;
         log.info("Created movie's id: " + id);
-    }
-
-    public String getTitolo() {
-
-        return titolo;
-    }
-
-    public String getAutore() {
-
-        return autore;
-    }
-
-    public int getAnno() {
-
-        return anno;
-    }
-
-    public int getId() {
-
-        return this.id;
     }
 
     @Override
