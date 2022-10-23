@@ -11,23 +11,23 @@ import java.util.List;
 import java.util.Map;
 
 @Log4j2
-public class ArchivioService {
-
+public class ArchiveService {
+//TODO sincronizzare gli ID con il file
     private final List<Movie> movies;
     private final TxtInterface txt;
 
-    public ArchivioService() {
+    public ArchiveService() {
 
-        this.movies = new ArrayList<Movie>();
+        this.movies = new ArrayList<>();
         this.txt = new TxtInterface(Path.of("file.txt"));
     }
 
     public Map<String,String> movieToMap(Movie movie) {
 
-        Map<String, String> movieMap = new LinkedHashMap<String, String>();
+        Map<String, String> movieMap = new LinkedHashMap<>();
         movieMap.put("id", Integer.toString(movie.getId()));
-        movieMap.put("Titolo",movie.getTitolo());
-        movieMap.put("Autore", movie.getAutore() );
+        movieMap.put("Title", movie.getTitolo());
+        movieMap.put("Author", movie.getAutore());
         movieMap.put("Anno", Integer.toString(movie.getAnno()));
         return movieMap;
     }
@@ -54,6 +54,7 @@ public class ArchivioService {
         movies.forEach(System.out::println);
 
         System.out.print("In Txt list:");
+        txt.readAll();
     }
 
 }
