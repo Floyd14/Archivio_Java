@@ -49,11 +49,13 @@ public class MemoryStorage implements Storage {
     @Override
     public void updateMovie(Movie movie) {
         //implement
+        movies.put(movie.getId(), movie);
     }
 
     @Override
     public void deleteMovie(int movieId) {
         //implement
+        movies.remove(movieId);
     }
 
 }

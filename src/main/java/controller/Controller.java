@@ -12,6 +12,7 @@ public class Controller {
 	private final ArchiveService archiveService;
 
 	public Controller() {
+
 		this.archiveService = new ArchiveService();
 	}
 
@@ -21,10 +22,17 @@ public class Controller {
 	}
 
 	public void deleteMovie(int movieId) {
+
 		archiveService.deleteMovie(movieId);
 	}
 
+	public void updateMovie(int movieId, Movie movie) {
+
+		archiveService.updateMovie(movie);
+	}
+
 	public List<Movie> getMovies() {
+
 		return archiveService.getMovies();
 	}
 }

@@ -6,6 +6,8 @@ import util.Constant;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import static java.lang.System.in;
+
 public class Menu {
 
     private final HashMap<String, MenuCommand> commandMap;
@@ -16,16 +18,18 @@ public class Menu {
         commandMap.put("a", new AddMovieMenuCommand(controller));
         commandMap.put("l", new ListMoviesMenuCommand(controller));
         commandMap.put("d", new DeleteMovieMenuCommand(controller));
+        commandMap.put("u", new UpdateMovieMenuCommand(controller));
     }
 
     public void showMenu() {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(in);
         String choice = "";
         while (!choice.equalsIgnoreCase("q")) {
             System.out.println(Constant.MENU_PROMPT);
             choice = scanner.nextLine().trim();
-            if (!choice.equalsIgnoreCase("q"))
+            if (commandMap.containsKey(choice))
                 commandMap.get(choice).execute();
+            else System.out.println("Retry");
         }
     }
 }

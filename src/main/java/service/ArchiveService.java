@@ -30,11 +30,20 @@ public class ArchiveService {
         storage.deleteMovie(movieId);
         storage.disconnect();
     }
+
+    public void updateMovie(Movie movie) {
+        storage.connect();
+        //storage.updateMovie(movie);
+        System.out.println(
+                "Not implemented yet"
+        );
+        storage.disconnect();
+    }
+
     public List<Movie> getMovies(){
         storage.connect();
         List<Movie> movies = storage.readMovies();
         storage.disconnect();
         return movies;
     }
-
 }

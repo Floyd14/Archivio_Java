@@ -26,8 +26,9 @@ public class AddMovieMenuCommand extends MenuCommand {
 		String autore = scanner.nextLine().trim();
 
 		System.out.print("Anno:");
+		int anno = scanner.nextInt();
+
 		try {
-			int anno = scanner.nextInt();
 			controller.addMovie(titolo, autore, anno);
 			System.out.println("Film correttamente aggiunto");
 		} catch (Exception e) {

@@ -11,19 +11,19 @@ public class Movie {
     @Getter
     private final int id;
     @Getter
-    private final String titolo;
+    private final String title;
     @Getter
-    private final String autore;
+    private final String author;
     @Getter
-    private final int anno;
+    private final int year;
 
 
-    public Movie(String titolo, String autore, int anno) {
+    public Movie(String title, String author, int year) {
         super();
 
-        this.titolo = titolo;
-        this.autore = autore;
-        this.anno = anno;
+        this.title = title;
+        this.author = author;
+        this.year = year;
 
         this.id = counter++;
         log.info("Created movie's id: " + id);
@@ -32,7 +32,7 @@ public class Movie {
     @Override
     public String toString() {
         //String s = super.toString();
-        return String.format("%s - %s di %s del %s", id, titolo, autore, anno);
+        return String.format("%s - %s di %s del %s", id, title, author, year);
     }
 }
 

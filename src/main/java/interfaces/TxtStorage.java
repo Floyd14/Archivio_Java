@@ -6,7 +6,6 @@ import model.Movie;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -35,6 +34,21 @@ public class TxtStorage implements Storage {
     }
 
     @Override
+    public List<Movie> readMovies() {
+        return null;
+    }
+
+    @Override
+    public void updateMovie(Movie movie) {
+
+    }
+
+    @Override
+    public void deleteMovie(int movieId) {
+
+    }
+
+    @Override
     public void connect() {
         //implement
     }
@@ -48,9 +62,9 @@ public class TxtStorage implements Storage {
     private Map<String,String> movieToMap(Movie movie) {
         Map<String, String> movieMap = new LinkedHashMap<>();
         movieMap.put("ID", Integer.toString(movie.getId()));
-        movieMap.put("Title", movie.getTitolo());
-        movieMap.put("Author", movie.getAutore());
-        movieMap.put("Anno", Integer.toString(movie.getAnno()));
+        movieMap.put("Title", movie.getTitle());
+        movieMap.put("Author", movie.getAuthor());
+        movieMap.put("Anno", Integer.toString(movie.getYear()));
         return movieMap;
     }
 

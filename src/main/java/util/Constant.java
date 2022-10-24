@@ -7,6 +7,7 @@ public class Constant {
                         - a: per aggiungere un film in archivio
                         - l: per listare i film in archivio
                         - d: per eliminare un film
+                        - u: update movie
                         - q: per uscire""";
 
 }
