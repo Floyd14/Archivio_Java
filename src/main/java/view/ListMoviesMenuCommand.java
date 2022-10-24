@@ -4,9 +4,14 @@ import controller.Controller;
 
 public class ListMoviesMenuCommand extends MenuCommand {
 
-    @Override
-    public void execute(Controller ctr) {
-
-        ctr.listMovies();
+    public ListMoviesMenuCommand(Controller controller) {
+        super(controller);
     }
+
+    @Override
+    public void execute() {
+        controller.listMovies();
+    }
+
+
 }

@@ -4,7 +4,13 @@ import controller.Controller;
 
 public abstract class MenuCommand {
 
-    public abstract void execute(Controller ctr);
+    protected Controller controller;
+
+    public MenuCommand(Controller controller) {
+        this.controller = controller;
+    }
+
+    public abstract void execute();
 
 }
 

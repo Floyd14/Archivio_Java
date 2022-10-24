@@ -7,12 +7,16 @@ import java.util.Scanner;
 
 public class DeleteMovieMenuCommand extends MenuCommand {
 
+    public DeleteMovieMenuCommand(Controller controller) {
+        super(controller);
+    }
+
     @Override
-    public void execute(@NotNull Controller ctr) {
-        ctr.listMovies();
-        System.out.print("ID da eliminare:");
+    public void execute() {
+        controller.listMovies();
+        System.out.println("ID da eliminare:");
         Scanner scanner = new Scanner(System.in);
         int id = Integer.parseInt(scanner.nextLine().trim());
-        ctr.deleteMovie(id);
+        controller.deleteMovie(id);
     }
 }
