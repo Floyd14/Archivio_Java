@@ -19,7 +19,7 @@ import static java.nio.file.StandardOpenOption.APPEND;
 
 @Log4j2
 public class TxtInterface implements Interface {
-
+//caso
     private static BufferedReader bufferedReader;
     private static BufferedWriter bufferedWriter;
     private static Files file;
