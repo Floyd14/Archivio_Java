@@ -13,10 +13,10 @@ public class DeleteMovieMenuCommand extends MenuCommand {
 
     @Override
     public void execute() {
-        controller.listMovies();
         System.out.println("ID da eliminare:");
         Scanner scanner = new Scanner(System.in);
         int id = Integer.parseInt(scanner.nextLine().trim());
         controller.deleteMovie(id);
+        System.out.println("Film cancellato correttamente");
     }
 }

@@ -1,60 +1,40 @@
 package service;
 
-import interfaces.TxtInterface;
+import interfaces.MemoryStorage;
+import interfaces.Storage;
+import interfaces.TxtStorage;
 import lombok.extern.log4j.Log4j2;
 import model.Movie;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Log4j2
 public class ArchiveService {
 //TODO sincronizzare gli ID con il file
-    private final List<Movie> movies;
-    private final TxtInterface txt;
+    private final Storage storage;
 
     public ArchiveService() {
 
-        this.movies = new ArrayList<>();
-        this.txt = new TxtInterface(Path.of("file.txt"));
-    }
-
-    public Map<String,String> movieToMap(Movie movie) {
-
-        Map<String, String> movieMap = new LinkedHashMap<>();
-        movieMap.put("id", Integer.toString(movie.getId()));
-        movieMap.put("Title", movie.getTitolo());
-        movieMap.put("Author", movie.getAutore());
-        movieMap.put("Anno", Integer.toString(movie.getAnno()));
-        return movieMap;
+        this.storage = new MemoryStorage();
     }
 
     public void addMovie(Movie movie){
+        storage.connect();
+        storage.addMovie(movie);
+        storage.disconnect();
 
-        // in memory:
-        movies.add(movie);
-
-        // on Txt:
-        txt.writeLine(movieToMap(movie));
     }
     public void deleteMovie(int movieId){
-
-        // in memory:
-        movies.remove(movieId);
-
-        // on Txt:
-
+        storage.connect();
+        storage.deleteMovie(movieId);
+        storage.disconnect();
     }
-    public void listMovie(){
-
-        System.out.print("In Memory list:");
-        movies.forEach(System.out::println);
-
-        System.out.print("In Txt list:");
-        txt.readAll();
+    public List<Movie> getMovies(){
+        storage.connect();
+        List<Movie> movies = storage.readMovies();
+        storage.disconnect();
+        return movies;
     }
 
 }

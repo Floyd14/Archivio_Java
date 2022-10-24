@@ -9,22 +9,19 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.StandardOpenOption.APPEND;
 
 @Log4j2
-public class TxtInterface implements Interface {
+public class TxtStorage implements Storage {
 
     private static BufferedReader bufferedReader;
     private static BufferedWriter bufferedWriter;
     private static Files file;
 
-    public TxtInterface(Path filePath) {
+    public TxtStorage(Path filePath) {
 
         try {
             this.bufferedWriter = Files.newBufferedWriter(
@@ -38,20 +35,29 @@ public class TxtInterface implements Interface {
     }
 
     @Override
-    public void connect(Path filePath) {
-
-        boolean exists = Files.exists(filePath);
-        System.out.println("exists = " + exists);
+    public void connect() {
+        //implement
     }
 
     @Override
-    public void disconnect() {}
+    public void disconnect() {
+        //implement
+    }
+
+
+    private Map<String,String> movieToMap(Movie movie) {
+        Map<String, String> movieMap = new LinkedHashMap<>();
+        movieMap.put("ID", Integer.toString(movie.getId()));
+        movieMap.put("Title", movie.getTitolo());
+        movieMap.put("Author", movie.getAutore());
+        movieMap.put("Anno", Integer.toString(movie.getAnno()));
+        return movieMap;
+    }
 
     @Override
-    public void writeLine(Map movieMap){
-
+    public void addMovie(Movie movie){
         try {
-            bufferedWriter.write(movieMap.toString() + "\n");
+            bufferedWriter.write(movieToMap(movie).toString() + "\n");
             bufferedWriter.flush();
             throw new RuntimeException();
         } catch (Exception e){
@@ -59,25 +65,8 @@ public class TxtInterface implements Interface {
             log.error(e);
             e.getStackTrace();
         }
-        disconnect();
     }
 
-    @Override
-    public List<String> readAll(){
-
-        List<String> data = new ArrayList<>();
-        String strCurrentLine;
-        try {
-            while ((strCurrentLine = bufferedReader.readLine()) != null)
-                data.add(strCurrentLine);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println(data);
-
-        parseDataToMovie(data);
-        return data;
-    }
 
     public List<Movie> parseDataToMovie(List<String> data) {
 

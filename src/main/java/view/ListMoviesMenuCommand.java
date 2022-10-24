@@ -1,6 +1,10 @@
 package view;
 
 import controller.Controller;
+import model.Movie;
+
+import java.sql.SQLOutput;
+import java.util.List;
 
 public class ListMoviesMenuCommand extends MenuCommand {
 
@@ -10,7 +14,13 @@ public class ListMoviesMenuCommand extends MenuCommand {
 
     @Override
     public void execute() {
-        controller.listMovies();
+        List<Movie> movies = controller.getMovies();
+        for (Movie movie : movies){
+            System.out.println("Movie ID: " + movie.getId());
+            System.out.println("Movie Title: " + movie.getTitolo());
+            System.out.println("Movie Author: " + movie.getAutore());
+            System.out.println("Movie Year: " + movie.getAnno());
+        }
     }
 
 
