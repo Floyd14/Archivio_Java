@@ -6,9 +6,13 @@ import model.Movie;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.StandardOpenOption.APPEND;
@@ -18,24 +22,66 @@ public class TxtStorage implements Storage {
 
     private static BufferedReader bufferedReader;
     private static BufferedWriter bufferedWriter;
-    private static Files file;
+    private final File file;
 
-    public TxtStorage(Path filePath) {
+    public TxtStorage() {
+        this.file = new File("file.txt");
+    }
 
+    @Override
+    public void connect() {
+    }
+
+    @Override
+    public void disconnect() {
+    }
+
+    @Override
+    public void addMovie(Movie movie) {
+        Map<String, String> movieString = movieToMap(movie);
         try {
-            this.bufferedWriter = Files.newBufferedWriter(
-                    filePath,
+            bufferedWriter = Files.newBufferedWriter(
+                    file.toPath(),
                     defaultCharset(),
-                    APPEND);  // fa schifo..
-            this.bufferedReader = Files.newBufferedReader(filePath);
+                    APPEND);
+            bufferedWriter.write(movieString.toString() + "\n");
+            bufferedWriter.flush();
+            bufferedWriter.close();
         } catch (Exception e) {
-            System.err.println("An error occurred on" + bufferedWriter);
+            System.err.println("An error occurred.");
+            log.error(e);
+            e.getStackTrace();
         }
     }
 
     @Override
     public List<Movie> readMovies() {
-        return null;
+        List<Movie> movies = new ArrayList<>();
+        try {
+            bufferedReader = Files.newBufferedReader(file.toPath());
+            Stream<String> rawData = bufferedReader.lines();
+
+            List<String> rawDataList = rawData.toList();
+
+            for (String line : rawDataList) {
+                System.out.println(line);
+
+                Map<String, String> movieMap = new HashMap<>();
+                String[] pairs = line
+                        .replace("{", "")
+                        .replace("}", "")
+                        .split(",");
+                for (String pair : pairs) {
+                    String[] keyValue = pair.split("=");
+                    movieMap.put(keyValue[0].trim(), keyValue[1].trim());
+                }
+                Movie movie = mapToMovie(movieMap);
+                movies.add(movie);
+            }
+            bufferedReader.close();
+        } catch (Exception e) {
+        }
+        return movies;
     }
 
     @Override
@@ -45,21 +91,24 @@ public class TxtStorage implements Storage {
 
     @Override
     public void deleteMovie(int movieId) {
+        List<Movie> movies = readMovies();
+        movies.remove(movieId);
 
+        try {
+            bufferedWriter = Files.newBufferedWriter(
+                    file.toPath(),
+                    defaultCharset());
+
+            for (Movie movie : movies) {
+                addMovie((movie));
+            }
+            bufferedWriter.flush();
+            bufferedWriter.close();
+        } catch (Exception e) {
+        }
     }
 
-    @Override
-    public void connect() {
-        //implement
-    }
-
-    @Override
-    public void disconnect() {
-        //implement
-    }
-
-
-    private Map<String,String> movieToMap(Movie movie) {
+    private Map<String, String> movieToMap(Movie movie) {
         Map<String, String> movieMap = new LinkedHashMap<>();
         movieMap.put("ID", Integer.toString(movie.getId()));
         movieMap.put("Title", movie.getTitle());
@@ -68,59 +117,14 @@ public class TxtStorage implements Storage {
         return movieMap;
     }
 
-    @Override
-    public void addMovie(Movie movie){
-        try {
-            bufferedWriter.write(movieToMap(movie).toString() + "\n");
-            bufferedWriter.flush();
-            throw new RuntimeException();
-        } catch (Exception e){
-            System.err.println("An error occurred.");
-            log.error(e);
-            e.getStackTrace();
-        }
+    private Movie mapToMovie(Map<String, String> data) {
+        Movie movie = new Movie(
+                data.get("Title"),
+                data.get("Author"),
+                Integer.parseInt(data.get("Anno")));
+        return movie;
     }
-
-
-    public List<Movie> parseDataToMovie(List<String> data) {
-
-        List<Movie> movieList = new ArrayList<>();
-
-        for (int i=0; i < data.size(); i++) {
-            // prendo una linea alla volta
-            String line = data.get(i)
-                    .replace("=", ":")
-                    .replaceAll("\\{", "")
-                    .replaceAll("}", "");
-            //System.out.println(line);
-
-            // converto la String in mappa
-            Map<String, String> mapString = new HashMap<>();
-            String[] pairs = line.split(",");
-            for (int y=1; y<pairs.length; y++) {
-                String pair = pairs[y].trim();
-                //System.out.println(pair);
-
-                String[] keyValue = pair.split(":");
-                mapString.put(keyValue[0], keyValue[1]);
-            }
-            // Dalla mappa creo il movie e lo aggiungo alla lista
-            movieList.add(new Movie(
-                    mapString.get("Title"),
-                    mapString.get("Author"),
-                    Integer.parseInt(mapString.get("Anno"))
-                    ));
-        }
-        //System.out.println(movieList);
-
-//        String[] pairs = s.split(",");
-//            for (int i=0;i<pairs.length;i++) {
-//                String pair = pairs[i];
-//                String[] keyValue = pair.split(":");
-//                myMap.put(keyValue[0], Integer.valueOf(keyValue[1]))
-
-        return movieList;
-    }
+}
 
 
 //    public static void writeDataForCustomSeparatorCSV(String filePath)
@@ -155,5 +159,3 @@ public class TxtStorage implements Storage {
 //            e.printStackTrace();
 //        }
 //    }
-
-}

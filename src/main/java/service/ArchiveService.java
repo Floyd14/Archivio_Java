@@ -2,6 +2,7 @@ package service;
 
 import interfaces.MemoryStorage;
 import interfaces.Storage;
+import interfaces.TxtStorage;
 import lombok.extern.log4j.Log4j2;
 import model.Movie;
 
@@ -14,7 +15,8 @@ public class ArchiveService {
 
     public ArchiveService() {
 
-        this.storage = new MemoryStorage();
+        //this.storage = new MemoryStorage();
+        this.storage = new TxtStorage();
     }
 
     public void addMovie(Movie movie){
