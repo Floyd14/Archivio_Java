@@ -17,26 +17,26 @@ public class UpdateMovieMenuCommand extends MenuCommand {
         ListMoviesMenuCommand listMoviesMenuCommand = new ListMoviesMenuCommand(controller);
         listMoviesMenuCommand.execute();
 
-        System.out.println("ID da modificare:");
         Scanner scanner = new Scanner(System.in);
-        int id = scanner.nextInt();
 
-        System.out.println("Titolo:");
+        System.out.print("ID da modificare:");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Titolo:");
         String title = scanner.nextLine().trim();
 
-        System.out.println("Autore:");
+        System.out.print("Autore:");
         String author = scanner.nextLine().trim();
 
-        System.out.println("Anno:");
+        System.out.print("Anno:");
         int year = scanner.nextInt();
 
-        Movie movie = new Movie(title, author, year);
-
         try {
-            controller.updateMovie(id, movie);
+            controller.updateMovie(id, title, author, year);
             System.out.printf("Film {%s} correttamente modificato\n", id);
         } catch (Exception e) {
-            System.err.println("L'anno deve essere un numero intero");
+            System.err.println("film non modificato");
         }
     }
 }

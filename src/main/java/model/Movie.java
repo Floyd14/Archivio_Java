@@ -1,6 +1,7 @@
 package model;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
 
@@ -10,12 +11,12 @@ public class Movie {
     private static int counter = 0;
     @Getter
     private final int id;
-    @Getter
-    private final String title;
-    @Getter
-    private final String author;
-    @Getter
-    private final int year;
+    @Getter @Setter
+    private String title;
+    @Getter @Setter
+    private String author;
+    @Getter @Setter
+    private int year;
 
 
     public Movie(String title, String author, int year) {

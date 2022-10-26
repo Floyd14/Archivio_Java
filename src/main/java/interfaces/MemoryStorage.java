@@ -4,18 +4,10 @@ package interfaces;
 import lombok.extern.log4j.Log4j2;
 import model.Movie;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static java.nio.charset.Charset.defaultCharset;
-import static java.nio.file.StandardOpenOption.APPEND;
 
 @Log4j2
 public class MemoryStorage implements Storage {
@@ -42,20 +34,18 @@ public class MemoryStorage implements Storage {
     }
 
     @Override
-    public List<Movie> readMovies(){
-        return new ArrayList<>(movies.values());
+    public void deleteMovie(int movieId) {
+        movies.remove(movieId);
     }
 
     @Override
     public void updateMovie(Movie movie) {
-        //implement
         movies.put(movie.getId(), movie);
     }
 
     @Override
-    public void deleteMovie(int movieId) {
-        //implement
-        movies.remove(movieId);
+    public List<Movie> readMovies(){
+        return new ArrayList<>(movies.values());
     }
 
 }

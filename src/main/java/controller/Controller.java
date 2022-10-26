@@ -16,8 +16,8 @@ public class Controller {
 		this.archiveService = new ArchiveService();
 	}
 
-	public void addMovie(String title, String author, int anno) {
-		Movie movie = new Movie(title, author, anno);
+	public void addMovie(String title, String author, int year) {
+		Movie movie = new Movie(title, author, year);
 		archiveService.addMovie(movie);
 	}
 
@@ -26,8 +26,12 @@ public class Controller {
 		archiveService.deleteMovie(movieId);
 	}
 
-	public void updateMovie(int movieId, Movie movie) {
-
+	public void updateMovie(int movieId, String title, String author, int year) {
+		List<Movie> movies = getMovies();
+		Movie movie = movies.get(movieId);
+		movie.setTitle(title);
+		movie.setAuthor(author);
+		movie.setYear(year);
 		archiveService.updateMovie(movie);
 	}
 

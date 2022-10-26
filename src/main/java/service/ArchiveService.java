@@ -2,16 +2,14 @@ package service;
 
 import interfaces.MemoryStorage;
 import interfaces.Storage;
-import interfaces.TxtStorage;
 import lombok.extern.log4j.Log4j2;
 import model.Movie;
 
-import java.nio.file.Path;
 import java.util.*;
 
 @Log4j2
 public class ArchiveService {
-//TODO sincronizzare gli ID con il file
+
     private final Storage storage;
 
     public ArchiveService() {
@@ -33,10 +31,7 @@ public class ArchiveService {
 
     public void updateMovie(Movie movie) {
         storage.connect();
-        //storage.updateMovie(movie);
-        System.out.println(
-                "Not implemented yet"
-        );
+        storage.updateMovie(movie);
         storage.disconnect();
     }
 

@@ -15,24 +15,23 @@ public class AddMovieMenuCommand extends MenuCommand {
 
 	@Override
 	public void execute() {
-		System.out.println("LEGGO E AGGIUNGO FILM");
-
 		Scanner scanner = new Scanner(System.in);
 
 		System.out.print("Titolo:");
-		String titolo = scanner.nextLine().trim();
+		String title = scanner.nextLine().trim();
 
 		System.out.print("Autore:");
-		String autore = scanner.nextLine().trim();
+		String author = scanner.nextLine().trim();
 
 		System.out.print("Anno:");
-		int anno = scanner.nextInt();
+		int year = scanner.nextInt();
+		scanner.nextLine();
 
 		try {
-			controller.addMovie(titolo, autore, anno);
+			controller.addMovie(title, author, year);
 			System.out.println("Film correttamente aggiunto");
 		} catch (Exception e) {
-			System.err.println("L'anno deve essere un numero intero");
+			System.err.println("film non  aggiunto");
 		}
 	}
 }
