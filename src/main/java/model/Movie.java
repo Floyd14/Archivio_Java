@@ -10,7 +10,7 @@ public class Movie {
 
     private static int counter = 0;
     @Getter
-    private final int id;
+    private final int id;  //ha senso??
     @Getter @Setter
     private String title;
     @Getter @Setter

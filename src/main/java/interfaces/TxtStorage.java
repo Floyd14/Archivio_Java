@@ -7,11 +7,8 @@ import model.Movie;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.nio.charset.Charset.defaultCharset;
@@ -93,7 +90,7 @@ public class TxtStorage implements Storage {
     public void deleteMovie(int movieId) {
         List<Movie> movies = readMovies();
         movies.remove(movieId);
-
+        // cancello tutto, ricreo i movie e aggiorno il file
         try {
             bufferedWriter = Files.newBufferedWriter(
                     file.toPath(),
