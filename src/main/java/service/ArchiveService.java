@@ -1,8 +1,10 @@
 package service;
 
 import interfaces.MemoryStorage;
+import interfaces.MySQLStorage;
 import interfaces.Storage;
 import interfaces.TxtStorage;
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import model.Movie;
 
@@ -13,10 +15,12 @@ public class ArchiveService {
 
     private final Storage storage;
 
+
     public ArchiveService() {
 
         //this.storage = new MemoryStorage();
         this.storage = new TxtStorage();
+        //this.storage = new MySQLStorage();
     }
 
     public void addMovie(Movie movie){

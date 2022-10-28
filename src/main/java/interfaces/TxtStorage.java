@@ -54,6 +54,7 @@ public class TxtStorage implements Storage {
     @Override
     public List<Movie> readMovies() {
         List<Movie> movies = new ArrayList<>();
+
         try {
             bufferedReader = Files.newBufferedReader(file.toPath());
             Stream<String> rawData = bufferedReader.lines();

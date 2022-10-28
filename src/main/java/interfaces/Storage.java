@@ -2,6 +2,7 @@ package interfaces;
 
 import model.Movie;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface Storage {
