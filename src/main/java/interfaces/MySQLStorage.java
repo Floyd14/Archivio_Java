@@ -42,7 +42,20 @@ public class MySQLStorage implements Storage {
 
 	@Override
 	public void addMovie(Movie movie) {
-       // to be implemented
+		try {
+			String queryString = "insert into movies (idmovies, titolo, autore, anno) " +
+					"values (null,?,?,?);";
+			PreparedStatement st = connect.prepareStatement(queryString);
+
+			st.setString(1, movie.getTitle());
+			st.setString(2, movie.getAuthor());
+			st.setInt(3, movie.getYear());
+
+			st.executeUpdate();
+
+		} catch (SQLException e) {
+			log.error(e.getMessage(), e);
+		}
 	}
 
 	@Override
@@ -51,7 +64,6 @@ public class MySQLStorage implements Storage {
 			List<Movie> movieList = new ArrayList<>();
 			String queryString = "select * from movies";
 			Statement statement = connect.createStatement();
-			//    private PreparedStatement preparedStatement = null;
 			ResultSet resultSet = statement.executeQuery(queryString);
 
 			while (resultSet.next()) {
@@ -71,12 +83,39 @@ public class MySQLStorage implements Storage {
 
 	@Override
 	public void updateMovie(Movie movie) {
-		// to be implemented
+		try {
+			String queryString = "update movies " +
+					"set titolo = ? ," +
+					"autore = ? ," +
+					"anno  = ? " +
+					"where idmovies = ?;";
+			PreparedStatement st = connect.prepareStatement(queryString);
+
+			st.setString(1, movie.getTitle());
+			st.setString(2, movie.getAuthor());
+			st.setInt(3, movie.getYear());
+			st.setInt(4, movie.getId());
+
+			st.executeUpdate();
+
+		} catch (SQLException e) {
+			log.error(e.getMessage(), e);
+		}
 	}
 
 	@Override
 	public void deleteMovie(int movieId) {
-		// to be implemented
+		try {
+			String queryString = "delete " +
+					"from movies " +
+					"where idmovies = ?";
+			PreparedStatement st = connect.prepareStatement(queryString);
+			st.setInt(1, movieId);
+			st.executeUpdate();
+
+		} catch (SQLException e) {
+			log.error(e.getMessage(), e);
+		}
 	}
 
 	@Override

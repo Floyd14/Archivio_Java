@@ -32,12 +32,14 @@ public class MemoryStorage implements Storage {
 
     @Override
     public void addMovie(Movie movie) {
+
         movie.setId(getNextId());
         moviesStorage.put(movie.getId(), movie);
     }
 
     @Override
     public void deleteMovie(int movieId) {
+
         moviesStorage.remove(movieId);
         refreshMemoryStorage();
     }
@@ -50,11 +52,13 @@ public class MemoryStorage implements Storage {
 
     @Override
     public void updateMovie(Movie movie) {
+
         moviesStorage.put(movie.getId(), movie);
     }
 
     @Override
     public List<Movie> readMovies() {
+
         return new ArrayList<>(moviesStorage.values());
     }
 

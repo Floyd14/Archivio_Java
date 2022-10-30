@@ -29,11 +29,8 @@ public class Controller {
 
 	public void updateMovie(int movieId, String title, String author, int year) {
 
-		List<Movie> movies = getMovies();
-		Movie movie = movies.get(movieId);
-		movie.setTitle(title);
-		movie.setAuthor(author);
-		movie.setYear(year);
+		Movie movie = new Movie(title, author, year);
+		movie.setId(movieId);
 		archiveService.updateMovie(movie);
 	}
 
