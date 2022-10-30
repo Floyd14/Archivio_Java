@@ -13,9 +13,10 @@ import java.util.Map;
 public class MemoryStorage implements Storage {
 
     private Map<Integer, Movie> movies;
-
+    private int counter;
     public MemoryStorage() {
         movies = new HashMap<>();
+        counter = 0;
     }
 
     @Override
@@ -30,12 +31,18 @@ public class MemoryStorage implements Storage {
 
     @Override
     public void addMovie(Movie movie){
+        movie.setId(getNextId());
         movies.put(movie.getId(), movie);
     }
 
     @Override
     public void deleteMovie(int movieId) {
         movies.remove(movieId);
+    }
+
+    @Override
+    public int getNextId() {
+        return counter++;
     }
 
     @Override

@@ -1,4 +1,2 @@
-{ID=8, Title=sss, Author=ddd, Anno=33}
-{ID=9, Title=hhhh, Author=uuuu, Anno=77}
-{ID=10, Title=f, Author=uuuuI, Anno=77}
-{ID=3, Title=f, Author=uuuuI, Anno=77}
+0,Ciao,Andrea,2000
+0,Ciao,Andrea,2001

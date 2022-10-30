@@ -1,6 +1,7 @@
 package interfaces;
 
 
+import com.mysql.cj.util.StringUtils;
 import lombok.extern.log4j.Log4j2;
 import model.Movie;
 
@@ -9,7 +10,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.StandardOpenOption.APPEND;
@@ -17,143 +18,101 @@ import static java.nio.file.StandardOpenOption.APPEND;
 @Log4j2
 public class TxtStorage implements Storage {
 
-    private static BufferedReader bufferedReader;
-    private static BufferedWriter bufferedWriter;
-    private final File file;
+	private static BufferedReader bufferedReader;
+	private static BufferedWriter bufferedWriter;
+	private final File file;
 
-    public TxtStorage() {
-        this.file = new File("file.txt");
-    }
+	public TxtStorage() {
+		this.file = new File("file.txt");
+	}
 
-    @Override
-    public void connect() {
-    }
+	@Override
+	public void connect() {
+	}
 
-    @Override
-    public void disconnect() {
-    }
+	@Override
+	public void disconnect() {
+	}
 
-    @Override
-    public void addMovie(Movie movie) {
-        Map<String, String> movieString = movieToMap(movie);
-        try {
-            bufferedWriter = Files.newBufferedWriter(
-                    file.toPath(),
-                    defaultCharset(),
-                    APPEND);
-            bufferedWriter.write(movieString.toString() + "\n");
-            bufferedWriter.flush();
-            bufferedWriter.close();
-        } catch (Exception e) {
-            System.err.println("An error occurred.");
-            log.error(e);
-            e.getStackTrace();
-        }
-    }
+	@Override
+	public void addMovie(Movie movie) {
+		String movieString = serialize(movie);
+		try {
+			bufferedWriter = Files.newBufferedWriter(
+					file.toPath(),
+					defaultCharset(),
+					APPEND);
+			bufferedWriter.write(movieString + "\n");
+			bufferedWriter.flush();
+			bufferedWriter.close();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+	}
 
-    @Override
-    public List<Movie> readMovies() {
-        List<Movie> movies = new ArrayList<>();
+	public void writeMovies(List<Movie> movies) {
+		String movieString = movies.stream().map(this::serialize).collect(Collectors.joining("\n"));
+		try {
+			bufferedWriter = Files.newBufferedWriter(
+					file.toPath(),
+					defaultCharset());
+			bufferedWriter.write(movieString + "\n");
+			bufferedWriter.flush();
+			bufferedWriter.close();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+	}
 
-        try {
-            bufferedReader = Files.newBufferedReader(file.toPath());
-            Stream<String> rawData = bufferedReader.lines();
+	@Override
+	public List<Movie> readMovies() {
+		List<Movie> movies = null;
+		try {
+			bufferedReader = Files.newBufferedReader(file.toPath());
+			movies = bufferedReader.lines().filter(line -> !StringUtils.isNullOrEmpty(line)).map(this::deserialize).collect(Collectors.toList());
+			bufferedReader.close();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return movies;
+	}
 
-            List<String> rawDataList = rawData.toList();
+	@Override
+	public void updateMovie(Movie movie) {
+		List<Movie> movies = readMovies();
+		movies.forEach(element -> {
+			if (element.getId() == movie.getId()){
+				element.setTitle(movie.getTitle());
+				element.setAuthor(movie.getAuthor());
+				element.setYear(movie.getYear());
+			}
+		});
+		writeMovies(movies);
+	}
 
-            for (String line : rawDataList) {
-                System.out.println(line);
+	@Override
+	public void deleteMovie(int movieId) {
+		List<Movie> movies = readMovies();
+		movies = movies.stream().filter(movie -> movie.getId() != movieId).collect(Collectors.toList());
+		writeMovies(movies);
+	}
 
-                Map<String, String> movieMap = new HashMap<>();
-                String[] pairs = line
-                        .replace("{", "")
-                        .replace("}", "")
-                        .split(",");
-                for (String pair : pairs) {
-                    String[] keyValue = pair.split("=");
-                    movieMap.put(keyValue[0].trim(), keyValue[1].trim());
-                }
-                Movie movie = mapToMovie(movieMap);
-                movies.add(movie);
-            }
-            bufferedReader.close();
-        } catch (Exception e) {
-        }
-        return movies;
-    }
+	@Override
+	public int getNextId() {
+		return 0;
+	}
 
-    @Override
-    public void updateMovie(Movie movie) {
+	private String serialize(Movie movie) {
+		return movie.getId() + "," + movie.getTitle() + "," + movie.getAuthor() + "," + movie.getYear();
+	}
 
-    }
-
-    @Override
-    public void deleteMovie(int movieId) {
-        List<Movie> movies = readMovies();
-        movies.remove(movieId);
-        // cancello tutto, ricreo i movie e aggiorno il file
-        try {
-            bufferedWriter = Files.newBufferedWriter(
-                    file.toPath(),
-                    defaultCharset());
-
-            for (Movie movie : movies) {
-                addMovie((movie));
-            }
-            bufferedWriter.flush();
-            bufferedWriter.close();
-        } catch (Exception e) {
-        }
-    }
-
-    private Map<String, String> movieToMap(Movie movie) {
-        Map<String, String> movieMap = new LinkedHashMap<>();
-        movieMap.put("ID", Integer.toString(movie.getId()));
-        movieMap.put("Title", movie.getTitle());
-        movieMap.put("Author", movie.getAuthor());
-        movieMap.put("Anno", Integer.toString(movie.getYear()));
-        return movieMap;
-    }
-
-    private Movie mapToMovie(Map<String, String> data) {
-        Movie movie = new Movie(
-                data.get("Title"),
-                data.get("Author"),
-                Integer.parseInt(data.get("Anno")));
-        return movie;
-    }
+	private Movie deserialize(String row) {
+		List<String> tokens = Arrays.asList(row.split(","));
+		if (!tokens.isEmpty()){
+			return new Movie(Integer.parseInt(tokens.get(0)), tokens.get(1), tokens.get(2), Integer.parseInt(tokens.get(3)));
+		}
+		else {
+			throw new IllegalArgumentException("Error in deserializing empty line");
+		}
+	}
 }
-
-
-//    public static void writeDataForCustomSeparatorCSV(String filePath)
-//    {
-//
-//        // first create file object for file placed at location
-//        // specified by filepath
-//        File file = new File(filePath);
-//
-//        try {
-//            // create FileWriter object with file as parameter
-//            FileWriter outputfile = new FileWriter(file);
-//
-//            // create CSVWriter with '|' as separator
-//            CSVWriter writer = new CSVWriter(outputfile, '|',
-//                    CSVWriter.NO_QUOTE_CHARACTER,
-//                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-//                    CSVWriter.DEFAULT_LINE_END);
-//
-//            // create a List which contains String array
-//            List<String[]> data = new ArrayList<String[]>();
-//            data.add(new String[] { "Name", "Class", "Marks" });
-//            data.add(new String[] { "Aman", "10", "620" });
-//            data.add(new String[] { "Suraj", "10", "630" });
-//            writer.writeAll(data);
-//
-//            // closing writer connection
-//            writer.close();
-//        }
-//        catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//    }

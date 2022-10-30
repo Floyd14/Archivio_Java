@@ -26,6 +26,7 @@ public class ArchiveService {
     public void addMovie(Movie movie){
         storage.connect();
         storage.addMovie(movie);
+        log.info("Created movie with id: " + movie.getId());
         storage.disconnect();
 
     }

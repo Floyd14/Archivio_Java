@@ -4,121 +4,117 @@ import controller.Controller;
 import model.Movie;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
 
 public class MainGui extends JFrame {
-    private JList listMovies;
-    private JTextField textFieldTitle;
-    private JTextField textFieldAuthor;
-    private JTextField textFieldYear;
-    private JRadioButton inMemoryRadioButton;
-    private JButton addButton;
-    private JButton deleteButton;
-    private JPanel panelMain;
-    private JButton updateButton;
-    private JRadioButton txtRadioButton;
-    private JRadioButton mySQLRadioButton;
-    private ButtonGroup radioButtonGroup;
-    private Controller controllerGUI;
-    private List<Movie> movieList;
-    private DefaultListModel movies;
+	private JList<Movie> movieJList;
+	private JTextField textFieldTitle;
+	private JTextField textFieldAuthor;
+	private JTextField textFieldYear;
+	private JRadioButton inMemoryRadioButton;
+	private JButton addButton;
+	private JButton deleteButton;
+	private JPanel panelMain;
+	private JButton updateButton;
+	private JRadioButton txtRadioButton;
+	private JRadioButton mySQLRadioButton;
+	private ButtonGroup radioButtonGroup;
+	private final Controller controllerGUI;
+	private List<Movie> movies;
+	private DefaultListModel<Movie> moviesListModel;
 
-    MainGui() {
-        super("Archivio");
-        this.setContentPane(this.panelMain);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.pack();
+	MainGui() {
+		super("Archivio");
+		this.setContentPane(this.panelMain);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.pack();
 
-        updateButton.setEnabled(false);
-        deleteButton.setEnabled(false);
-        //------------------------------
-        this.controllerGUI = new Controller();
-        this.movies = new DefaultListModel();
-        listMovies.setModel(movies);
-        refreshScreenList();
-        //------------------------------
+		updateButton.setEnabled(false);
+		deleteButton.setEnabled(false);
+		//------------------------------
+		this.controllerGUI = new Controller();
+		this.moviesListModel = new DefaultListModel<>();
 
-
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controllerGUI.addMovie(
-                        textFieldTitle.getText(),
-                        textFieldAuthor.getText(),
-                        Integer.parseInt(textFieldYear.getText())
-                );
-                refreshScreenList();
-            }
-        });
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int movieIndex = listMovies.getSelectedIndex();
-                if( movieIndex >= 0) {
-                    controllerGUI.deleteMovie(movieIndex);
-                    refreshScreenList();
-                }
-            }
-        });
-        listMovies.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                int movieIndex = listMovies.getSelectedIndex();
-                if (movieIndex >= 0) {
-                    Movie movie = movieList.get(movieIndex);
-                    textFieldTitle.setText(movie.getTitle());
-                    textFieldAuthor.setText(movie.getAuthor());
-                    textFieldYear.setText(String.valueOf(movie.getYear()));
-
-                    updateButton.setEnabled(true);
-                    deleteButton.setEnabled(true);
-                } else {
-                    updateButton.setEnabled(false);
-                    deleteButton.setEnabled(false);
-                }
-            }
-        });
-        updateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int movieIndex = listMovies.getSelectedIndex();
-                if( movieIndex >= 0) {
-                    controllerGUI.updateMovie(
-                            movieIndex,
-                            textFieldTitle.getText(),
-                            textFieldAuthor.getText(),
-                            Integer.parseInt(textFieldYear.getText())
-                            );
-                    refreshScreenList();
-                }
-            }
-        });
+		movieJList.setModel(moviesListModel);
+		refreshScreenList();
+		//------------------------------
 
 
-        ItemListener listener = new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
+		addButton.addActionListener(e -> {
+			try {
+				controllerGUI.addMovie(
+						textFieldTitle.getText(),
+						textFieldAuthor.getText(),
+						Integer.parseInt(textFieldYear.getText())
 
-            }
-        };
-        inMemoryRadioButton.addItemListener(listener);
-        txtRadioButton.addItemListener(listener);
-        mySQLRadioButton.addItemListener(listener);
-    }
+				);
+			} catch (NumberFormatException numberFormatException) {
+				JOptionPane.showMessageDialog(this,
+						"Inserire un numero per l'anno",
+						"Errore",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			refreshScreenList();
+		});
 
-    private void refreshScreenList() {
-        movieList = controllerGUI.getMovies();
-        movies.removeAllElements();
-        for (Movie movie : movieList) {
-            movies.addElement(movie.getTitle());
-        }
-    }
+		deleteButton.addActionListener(e -> {
+			int movieIndex = movieJList.getSelectedIndex();
+			if (movieIndex >= 0) {
+				controllerGUI.deleteMovie(movieIndex);
+				refreshScreenList();
+			}
+		});
+		movieJList.addListSelectionListener(e -> {
+			int movieIndex = movieJList.getSelectedIndex();
+			if (movieIndex >= 0) {
+				Movie movie = movies.get(movieIndex);
+				textFieldTitle.setText(movie.getTitle());
+				textFieldAuthor.setText(movie.getAuthor());
+				textFieldYear.setText(String.valueOf(movie.getYear()));
 
-    public static void main(String[] args) {
-        MainGui screen = new MainGui();
-        screen.setVisible(true);
-    }
+				updateButton.setEnabled(true);
+				deleteButton.setEnabled(true);
+			} else {
+				updateButton.setEnabled(false);
+				deleteButton.setEnabled(false);
+			}
+		});
+		updateButton.addActionListener(e -> {
+			int movieIndex = movieJList.getSelectedIndex();
+			if (movieIndex >= 0) {
+				controllerGUI.updateMovie(
+						movieIndex,
+						textFieldTitle.getText(),
+						textFieldAuthor.getText(),
+						Integer.parseInt(textFieldYear.getText())
+				);
+				refreshScreenList();
+			}
+		});
+
+
+		ItemListener listener = e -> {
+
+		};
+		inMemoryRadioButton.addItemListener(listener);
+		txtRadioButton.addItemListener(listener);
+		mySQLRadioButton.addItemListener(listener);
+	}
+
+	private void refreshScreenList() {
+		movies = controllerGUI.getMovies();
+		moviesListModel.removeAllElements();
+		for (Movie movie : movies) {
+			moviesListModel.addElement(movie);
+		}
+	}
+
+	public static void main(String[] args) {
+		MainGui screen = new MainGui();
+		screen.setVisible(true);
+	}
 }
