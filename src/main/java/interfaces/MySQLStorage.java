@@ -81,6 +81,7 @@ public class MySQLStorage implements Storage {
 
 	@Override
 	public int getNextId() {
+
 		return 0;
 	}
 }

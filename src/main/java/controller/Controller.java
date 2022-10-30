@@ -17,6 +17,7 @@ public class Controller {
 	}
 
 	public void addMovie(String title, String author, int year) {
+
 		Movie movie = new Movie(title, author, year);
 		archiveService.addMovie(movie);
 	}
@@ -27,6 +28,7 @@ public class Controller {
 	}
 
 	public void updateMovie(int movieId, String title, String author, int year) {
+
 		List<Movie> movies = getMovies();
 		Movie movie = movies.get(movieId);
 		movie.setTitle(title);

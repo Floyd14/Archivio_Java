@@ -1,11 +1,10 @@
 package view;
 
 import controller.Controller;
-import model.Movie;
+import lombok.extern.log4j.Log4j2;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
-
+@Log4j2
 public class AddMovieMenuCommand extends MenuCommand {
 
 
@@ -31,7 +30,7 @@ public class AddMovieMenuCommand extends MenuCommand {
 			controller.addMovie(title, author, year);
 			System.out.println("Film correttamente aggiunto");
 		} catch (Exception e) {
-			System.err.println("film non  aggiunto");
+			System.err.println("film non aggiunto");
 		}
 	}
 }

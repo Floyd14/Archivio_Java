@@ -4,7 +4,6 @@ import interfaces.MemoryStorage;
 import interfaces.MySQLStorage;
 import interfaces.Storage;
 import interfaces.TxtStorage;
-import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import model.Movie;
 
@@ -17,20 +16,20 @@ public class ArchiveService {
 
 
     public ArchiveService() {
-
         //this.storage = new MemoryStorage();
-        this.storage = new TxtStorage();
-        //this.storage = new MySQLStorage();
+        //this.storage = new TxtStorage();
+        this.storage = new MySQLStorage();
     }
 
-    public void addMovie(Movie movie){
+    public void addMovie(Movie movie) {
         storage.connect();
         storage.addMovie(movie);
         log.info("Created movie with id: " + movie.getId());
         storage.disconnect();
 
     }
-    public void deleteMovie(int movieId){
+
+    public void deleteMovie(int movieId) {
         storage.connect();
         storage.deleteMovie(movieId);
         storage.disconnect();
@@ -42,7 +41,7 @@ public class ArchiveService {
         storage.disconnect();
     }
 
-    public List<Movie> getMovies(){
+    public List<Movie> getMovies() {
         storage.connect();
         List<Movie> movies = storage.readMovies();
         storage.disconnect();

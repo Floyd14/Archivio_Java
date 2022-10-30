@@ -1,12 +1,10 @@
 package view;
 
 import controller.Controller;
-import model.Movie;
-import org.jetbrains.annotations.NotNull;
+import lombok.extern.log4j.Log4j2;
 
-import java.util.List;
 import java.util.Scanner;
-
+@Log4j2
 public class DeleteMovieMenuCommand extends MenuCommand {
 
     public DeleteMovieMenuCommand(Controller controller) {
@@ -26,12 +24,4 @@ public class DeleteMovieMenuCommand extends MenuCommand {
         controller.deleteMovie(id);
         System.out.println("Film cancellato correttamente");
     }
-
-//    //TODO metodo private per mostrare gli id dei movie
-//    private void listMoviesId() {
-//        for (Movie movie : controller.getMovies()) {
-//            System.out.println(movie.getId());
-//        }
-//    }
-
 }

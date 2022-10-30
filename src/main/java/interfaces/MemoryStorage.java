@@ -12,11 +12,12 @@ import java.util.Map;
 @Log4j2
 public class MemoryStorage implements Storage {
 
-    private Map<Integer, Movie> movies;
-    private int counter;
+    private Map<Integer, Movie> moviesStorage;
+   // private int counter;
+
     public MemoryStorage() {
-        movies = new HashMap<>();
-        counter = 0;
+        moviesStorage = new HashMap<>();
+       // counter = 0;
     }
 
     @Override
@@ -30,29 +31,42 @@ public class MemoryStorage implements Storage {
     }
 
     @Override
-    public void addMovie(Movie movie){
+    public void addMovie(Movie movie) {
         movie.setId(getNextId());
-        movies.put(movie.getId(), movie);
+        moviesStorage.put(movie.getId(), movie);
     }
 
     @Override
     public void deleteMovie(int movieId) {
-        movies.remove(movieId);
+        moviesStorage.remove(movieId);
+        refreshMemoryStorage();
     }
 
     @Override
     public int getNextId() {
-        return counter++;
+
+        return moviesStorage.size();
     }
 
     @Override
     public void updateMovie(Movie movie) {
-        movies.put(movie.getId(), movie);
+        moviesStorage.put(movie.getId(), movie);
     }
 
     @Override
-    public List<Movie> readMovies(){
-        return new ArrayList<>(movies.values());
+    public List<Movie> readMovies() {
+        return new ArrayList<>(moviesStorage.values());
+    }
+
+    private void refreshMemoryStorage() {
+        Map<Integer, Movie> updatedMoviesStorage = new HashMap<>();
+        int i = 0;
+        for (Movie movie : moviesStorage.values()) {
+            movie.setId(i);
+            updatedMoviesStorage.put(i, movie);
+            i++;
+        }
+        moviesStorage = updatedMoviesStorage;
     }
 
 }

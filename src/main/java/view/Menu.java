@@ -1,13 +1,14 @@
 package view;
 
 import controller.Controller;
+import lombok.extern.log4j.Log4j2;
 import util.Constant;
 
 import java.util.HashMap;
 import java.util.Scanner;
 
 import static java.lang.System.in;
-
+@Log4j2
 public class Menu {
 
     private final HashMap<String, MenuCommand> commandMap;

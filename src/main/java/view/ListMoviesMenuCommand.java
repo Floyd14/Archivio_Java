@@ -1,10 +1,11 @@
 package view;
 
 import controller.Controller;
+import lombok.extern.log4j.Log4j2;
 import model.Movie;
 
 import java.util.List;
-
+@Log4j2
 public class ListMoviesMenuCommand extends MenuCommand {
 
     public ListMoviesMenuCommand(Controller controller) {

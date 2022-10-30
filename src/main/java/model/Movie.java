@@ -1,7 +1,6 @@
 package model;
 
-import lombok.Getter;
-import lombok.Setter;
+
 import lombok.extern.log4j.Log4j2;
 
 
@@ -13,6 +12,7 @@ public class Movie {
     private String title;
     private String author;
     private int year;
+
     public Movie(int id, String title, String author, int year) {
         this.id = id;
         this.title = title;
@@ -24,11 +24,11 @@ public class Movie {
         this.title = title;
         this.author = author;
         this.year = year;
+        this.id = counter++;
     }
 
     @Override
     public String toString() {
-        //String s = super.toString();
         return String.format("%s - %s di %s del %s", id, title, author, year);
     }
 
