@@ -4,11 +4,7 @@ import controller.Controller;
 import model.Movie;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.List;
 
 public class MainGui extends JFrame {
 	private JList<Movie> movieJList;
@@ -24,8 +20,7 @@ public class MainGui extends JFrame {
 	private JRadioButton mySQLRadioButton;
 	private ButtonGroup radioButtonGroup;
 	private final Controller controllerGUI;
-	private List<Movie> movies;
-	private DefaultListModel<Movie> moviesListModel;
+	private DefaultListModel<Movie> moviesDLM;
 
 	MainGui() {
 		super("Archivio");
@@ -35,14 +30,16 @@ public class MainGui extends JFrame {
 
 		updateButton.setEnabled(false);
 		deleteButton.setEnabled(false);
+
 		//------------------------------
+
 		this.controllerGUI = new Controller();
-		this.moviesListModel = new DefaultListModel<>();
+		this.moviesDLM = new DefaultListModel<>();
 
-		movieJList.setModel(moviesListModel);
 		refreshScreenList();
-		//------------------------------
+		movieJList.setModel(moviesDLM);
 
+		//------------------------------
 
 		addButton.addActionListener(e -> {
 			try {
@@ -64,17 +61,23 @@ public class MainGui extends JFrame {
 		deleteButton.addActionListener(e -> {
 			int movieIndex = movieJList.getSelectedIndex();
 			if (movieIndex >= 0) {
-				controllerGUI.deleteMovie(movieIndex);
+				controllerGUI.deleteMovie(movieJList.getSelectedValue().getId());
 				refreshScreenList();
 			}
 		});
+
 		movieJList.addListSelectionListener(e -> {
 			int movieIndex = movieJList.getSelectedIndex();
 			if (movieIndex >= 0) {
-				Movie movie = movies.get(movieIndex);
-				textFieldTitle.setText(movie.getTitle());
-				textFieldAuthor.setText(movie.getAuthor());
-				textFieldYear.setText(String.valueOf(movie.getYear()));
+				textFieldTitle.setText(
+						movieJList.getSelectedValue().getTitle()
+				);
+				textFieldAuthor.setText(
+						movieJList.getSelectedValue().getAuthor()
+				);
+				textFieldYear.setText(
+						String.valueOf(movieJList.getSelectedValue().getYear())
+				);
 
 				updateButton.setEnabled(true);
 				deleteButton.setEnabled(true);
@@ -83,11 +86,12 @@ public class MainGui extends JFrame {
 				deleteButton.setEnabled(false);
 			}
 		});
+
 		updateButton.addActionListener(e -> {
 			int movieIndex = movieJList.getSelectedIndex();
 			if (movieIndex >= 0) {
 				controllerGUI.updateMovie(
-						movieIndex,
+						movieJList.getSelectedValue().getId(),
 						textFieldTitle.getText(),
 						textFieldAuthor.getText(),
 						Integer.parseInt(textFieldYear.getText())
@@ -106,11 +110,8 @@ public class MainGui extends JFrame {
 	}
 
 	private void refreshScreenList() {
-		movies = controllerGUI.getMovies();
-		moviesListModel.removeAllElements();
-		for (Movie movie : movies) {
-			moviesListModel.addElement(movie);
-		}
+		moviesDLM.removeAllElements();
+		moviesDLM.addAll(controllerGUI.getMovies());
 	}
 
 	public static void main(String[] args) {

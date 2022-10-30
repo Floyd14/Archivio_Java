@@ -16,9 +16,9 @@ public class ArchiveService {
 
 
     public ArchiveService() {
-        this.storage = new MemoryStorage();
+        //this.storage = new MemoryStorage();
         //this.storage = new TxtStorage();
-        //this.storage = new MySQLStorage();
+        this.storage = new MySQLStorage();
     }
 
     public void addMovie(Movie movie) {
