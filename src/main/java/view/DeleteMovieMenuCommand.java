@@ -22,6 +22,6 @@ public class DeleteMovieMenuCommand extends MenuCommand {
         Scanner scanner = new Scanner(System.in);
         int id = Integer.parseInt(scanner.nextLine().trim());
         controller.deleteMovie(id);
-        System.out.println("Film cancellato correttamente");
+        System.out.println("Film deleted");
     }
 }

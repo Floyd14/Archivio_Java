@@ -16,10 +16,10 @@ public class AddMovieMenuCommand extends MenuCommand {
 	public void execute() {
 		Scanner scanner = new Scanner(System.in);
 
-		System.out.print("Titolo:");
+		System.out.print("Title:");
 		String title = scanner.nextLine().trim();
 
-		System.out.print("Autore:");
+		System.out.print("Author:");
 		String author = scanner.nextLine().trim();
 
 		System.out.print("Anno:");
@@ -28,9 +28,9 @@ public class AddMovieMenuCommand extends MenuCommand {
 
 		try {
 			controller.addMovie(title, author, year);
-			System.out.println("Film correttamente aggiunto");
+			System.out.println("Film added");
 		} catch (Exception e) {
-			System.err.println("film non aggiunto");
+			System.err.println("film nont added");
 		}
 	}
 }

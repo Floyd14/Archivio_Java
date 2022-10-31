@@ -19,8 +19,4 @@ public interface Storage {
 
     void deleteMovie(int movieId);
 
-    int getNextId(); //che id dare ad ogni nuova movie? Questo metodo risponde alla domanda
-
-    String getStorageType();
-
 }

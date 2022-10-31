@@ -11,7 +11,7 @@ import java.util.*;
 @Log4j2
 public class ArchiveService {
 
-    private StorageFactory storageFactory;
+    private final StorageFactory storageFactory;
 
     private Storage storage;
 
@@ -46,10 +46,6 @@ public class ArchiveService {
         List<Movie> movies = storage.readMovies();
         storage.disconnect();
         return movies;
-    }
-
-    public String getStorageType() {
-        return storage.getStorageType();
     }
 
     public void setStorageType(String storageType) {

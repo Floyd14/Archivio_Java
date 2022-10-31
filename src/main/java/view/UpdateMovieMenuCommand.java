@@ -20,7 +20,7 @@ public class UpdateMovieMenuCommand extends MenuCommand {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("ID da modificare:");
+        System.out.print("ID to modify:");
         int id = scanner.nextInt();
         scanner.nextLine();
 
@@ -35,9 +35,9 @@ public class UpdateMovieMenuCommand extends MenuCommand {
 
         try {
             controller.updateMovie(id, title, author, year);
-            System.out.printf("Film {%s} correttamente modificato\n", id);
+            System.out.printf("Film {%s} modified\n", id);
         } catch (Exception e) {
-            System.err.println("film non modificato");
+            System.err.println("film not modified");
         }
     }
 }

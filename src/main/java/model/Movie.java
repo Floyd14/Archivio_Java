@@ -31,14 +31,6 @@ public class Movie {
         this.id = id;
     }
 
-    public static int getCounter() {
-        return counter;
-    }
-
-    public static void setCounter(int counter) {
-        Movie.counter = counter;
-    }
-
     public int getId() {
         return id;
     }
