@@ -4,7 +4,6 @@ import controller.Controller;
 import model.Movie;
 
 import javax.swing.*;
-import java.awt.event.ItemListener;
 
 public class MainGui extends JFrame {
 	private JList<Movie> movieJList;
@@ -20,7 +19,7 @@ public class MainGui extends JFrame {
 	private JRadioButton mySQLRadioButton;
 	private ButtonGroup radioButtonGroup;
 	private final Controller controllerGUI;
-	private DefaultListModel<Movie> moviesDLM;
+	private final DefaultListModel<Movie> moviesDLM;
 
 	MainGui() {
 		super("Archivio");
@@ -36,7 +35,7 @@ public class MainGui extends JFrame {
 		this.controllerGUI = new Controller();
 		this.moviesDLM = new DefaultListModel<>();
 
-		refreshScreenList();
+		refreshDLM();
 		movieJList.setModel(moviesDLM);
 
 		//------------------------------
@@ -55,14 +54,14 @@ public class MainGui extends JFrame {
 						"Errore",
 						JOptionPane.ERROR_MESSAGE);
 			}
-			refreshScreenList();
+			refreshDLM();
 		});
 
 		deleteButton.addActionListener(e -> {
 			int movieIndex = movieJList.getSelectedIndex();
 			if (movieIndex >= 0) {
 				controllerGUI.deleteMovie(movieJList.getSelectedValue().getId());
-				refreshScreenList();
+				refreshDLM();
 			}
 		});
 
@@ -96,20 +95,29 @@ public class MainGui extends JFrame {
 						textFieldAuthor.getText(),
 						Integer.parseInt(textFieldYear.getText())
 				);
-				refreshScreenList();
+				refreshDLM();
 			}
 		});
 
+		inMemoryRadioButton.addActionListener(e -> {
+			controllerGUI.setStorageType("MEM");
+			refreshDLM();
+		});
 
-		ItemListener listener = e -> {
 
-		};
-		inMemoryRadioButton.addItemListener(listener);
-		txtRadioButton.addItemListener(listener);
-		mySQLRadioButton.addItemListener(listener);
+		txtRadioButton.addActionListener(e -> {
+			controllerGUI.setStorageType("TXT");
+			refreshDLM();
+		});
+
+
+		mySQLRadioButton.addActionListener(e -> {
+			controllerGUI.setStorageType("SQL");
+			refreshDLM();
+		});
 	}
 
-	private void refreshScreenList() {
+	private void refreshDLM() {
 		moviesDLM.removeAllElements();
 		moviesDLM.addAll(controllerGUI.getMovies());
 	}

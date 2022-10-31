@@ -9,10 +9,9 @@ import java.util.List;
 @Log4j2
 public class Controller {
 
-	private final ArchiveService archiveService;
+	private ArchiveService archiveService;
 
 	public Controller() {
-
 		this.archiveService = new ArchiveService();
 	}
 
@@ -38,4 +37,15 @@ public class Controller {
 
 		return archiveService.getMovies();
 	}
+
+	public String getStorageType() {
+
+		return archiveService.getStorageType();
+	}
+
+	public void setStorageType(String storageType) {
+
+		archiveService.setStorageType(storageType);
+	}
+
 }

@@ -27,11 +27,6 @@ public class Movie {
         this.id = counter++;
     }
 
-    @Override
-    public String toString() {
-        return String.format("%s - %s di %s del %s", id, title, author, year);
-    }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -70,6 +65,11 @@ public class Movie {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    @Override
+    public String toString() {
+        return title + ", author: " + author +", " + year;
     }
 }
 

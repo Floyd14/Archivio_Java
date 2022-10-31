@@ -21,4 +21,6 @@ public interface Storage {
 
     int getNextId(); //che id dare ad ogni nuova movie? Questo metodo risponde alla domanda
 
+    String getStorageType();
+
 }

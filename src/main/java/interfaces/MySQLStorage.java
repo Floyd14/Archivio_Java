@@ -10,9 +10,12 @@ import java.util.List;
 @Log4j2
 public class MySQLStorage implements Storage {
 
+	private final String storageType;
+
 	private Connection connect;
 
 	public MySQLStorage() {
+		this.storageType = "SQL";
 	}
 
 	@Override
@@ -122,6 +125,11 @@ public class MySQLStorage implements Storage {
 	public int getNextId() {
 
 		return 0;
+	}
+
+	@Override
+	public String getStorageType() {
+		return storageType;
 	}
 }
 

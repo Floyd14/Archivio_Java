@@ -17,12 +17,14 @@ import static java.nio.file.StandardOpenOption.APPEND;
 
 @Log4j2
 public class TxtStorage implements Storage {
+    private final String storageType;
 
     private static BufferedReader bufferedReader;
     private static BufferedWriter bufferedWriter;
     private final File file;
 
     public TxtStorage() {
+        this.storageType = "TXT";
         this.file = new File("file.txt");
     }
 
@@ -129,6 +131,11 @@ public class TxtStorage implements Storage {
             log.error(e.getMessage(), e);
         }
         return id;
+    }
+
+    @Override
+    public String getStorageType() {
+        return storageType;
     }
 
     private String serialize(Movie movie) {

@@ -11,13 +11,14 @@ import java.util.Map;
 
 @Log4j2
 public class MemoryStorage implements Storage {
+    private final String storageType;
 
     private Map<Integer, Movie> moviesStorage;
    // private int counter;
 
     public MemoryStorage() {
+        this.storageType = "MEM";
         moviesStorage = new HashMap<>();
-       // counter = 0;
     }
 
     @Override
@@ -48,6 +49,11 @@ public class MemoryStorage implements Storage {
     public int getNextId() {
 
         return moviesStorage.size();
+    }
+
+    @Override
+    public String getStorageType() {
+        return storageType;
     }
 
     @Override
