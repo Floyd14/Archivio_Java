@@ -19,4 +19,8 @@ public interface Storage {
 
     void deleteMovie(int movieId);
 
+    public int getNextId();
+
+    public String getStorageType();
+
 }
