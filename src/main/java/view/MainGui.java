@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import interfaces.StorageType;
 import model.Movie;
 
 import javax.swing.*;
@@ -21,18 +22,19 @@ public class MainGui extends JFrame {
 	private final Controller controllerGUI;
 	private final DefaultListModel<Movie> moviesDLM;
 
-	MainGui() {
+	public MainGui() {
 		super("Archivio");
 		this.setContentPane(this.panelMain);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 
+		radioButtonGroup.setSelected(txtRadioButton.getModel(), true);
 		updateButton.setEnabled(false);
 		deleteButton.setEnabled(false);
 
 		//------------------------------
 
-		this.controllerGUI = new Controller();
+		this.controllerGUI = new Controller(StorageType.TXT);
 		this.moviesDLM = new DefaultListModel<>();
 
 		refreshDLM();
@@ -100,19 +102,19 @@ public class MainGui extends JFrame {
 		});
 
 		inMemoryRadioButton.addActionListener(e -> {
-			controllerGUI.setStorageType("MEM");
+			controllerGUI.setStorageType(StorageType.MEM);
 			refreshDLM();
 		});
 
 
 		txtRadioButton.addActionListener(e -> {
-			controllerGUI.setStorageType("TXT");
+			controllerGUI.setStorageType(StorageType.TXT);
 			refreshDLM();
 		});
 
 
 		mySQLRadioButton.addActionListener(e -> {
-			controllerGUI.setStorageType("SQL");
+			controllerGUI.setStorageType(StorageType.SQL);
 			refreshDLM();
 		});
 	}

@@ -1,4 +1,2 @@
-0,ggggg,pppppp,66666
-1,uuuu,ooo,9999
-2,cccc,nnnn,44
-3,uuuu,oooiii,9999
+0,uuuu,ooo,9999
+1,uuuu,ooo,6666

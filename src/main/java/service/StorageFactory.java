@@ -5,18 +5,7 @@ import interfaces.MySQLStorage;
 import interfaces.Storage;
 import interfaces.TxtStorage;
 
-public class StorageFactory {
+public interface StorageFactory {
+	public Storage getStorage();
 
-    public Storage storage() {
-        return new MySQLStorage();
-    }
-
-    public Storage storage(String storageType) {
-
-        return switch (storageType) {
-            case "MEM" -> new MemoryStorage();
-            case "TXT" -> new TxtStorage();
-            default -> new MySQLStorage();
-        };
-    }
 }

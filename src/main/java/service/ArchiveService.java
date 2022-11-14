@@ -3,6 +3,7 @@ package service;
 
 import interfaces.Storage;
 
+import interfaces.StorageType;
 import lombok.extern.log4j.Log4j2;
 import model.Movie;
 
@@ -11,13 +12,13 @@ import java.util.*;
 @Log4j2
 public class ArchiveService {
 
-    private final StorageFactory storageFactory;
+    private final TextBasedStorageFactory textBasedStorageFactory;
 
     private Storage storage;
 
-    public ArchiveService() {
-        storageFactory = new StorageFactory();
-        this.storage = storageFactory.storage();
+    public ArchiveService(StorageType storageType) {
+        textBasedStorageFactory = new TextBasedStorageFactory(storageType);
+        this.storage = textBasedStorageFactory.getStorage();
     }
 
     public void addMovie(Movie movie) {
@@ -48,8 +49,9 @@ public class ArchiveService {
         return movies;
     }
 
-    public void setStorageType(String storageType) {
-        this.storage = storageFactory.storage(storageType);
+    public void setStorageType(StorageType storageType) {
+        textBasedStorageFactory.setStorageType(storageType);
+        this.storage = textBasedStorageFactory.getStorage();
     }
 
 }

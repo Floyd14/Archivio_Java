@@ -1,4 +1,5 @@
 import lombok.extern.log4j.Log4j2;
+import view.MainGui;
 import view.Menu;
 
 @Log4j2
@@ -9,6 +10,5 @@ public class Main {
         log.info("Start Application");
         Menu menu = new Menu();
         menu.showMenu();
-
     }
 }

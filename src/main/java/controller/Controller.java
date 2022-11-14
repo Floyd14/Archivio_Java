@@ -1,5 +1,6 @@
 package controller;
 
+import interfaces.StorageType;
 import lombok.extern.log4j.Log4j2;
 import model.Movie;
 import service.ArchiveService;
@@ -11,8 +12,8 @@ public class Controller {
 
 	private final ArchiveService archiveService;
 
-	public Controller() {
-		this.archiveService = new ArchiveService();
+	public Controller(StorageType storageType) {
+		this.archiveService = new ArchiveService(storageType);
 	}
 
 	public void addMovie(String title, String author, int year) {
@@ -38,7 +39,7 @@ public class Controller {
 		return archiveService.getMovies();
 	}
 
-	public void setStorageType(String storageType) {
+	public void setStorageType(StorageType storageType) {
 
 		archiveService.setStorageType(storageType);
 	}

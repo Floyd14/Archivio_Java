@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import interfaces.StorageType;
 import lombok.extern.log4j.Log4j2;
 import util.Constant;
 
@@ -14,7 +15,7 @@ public class Menu {
     private final HashMap<String, MenuCommand> commandMap;
 
     public Menu() {
-        Controller controller = new Controller();
+        Controller controller = new Controller(StorageType.TXT);
         commandMap = new HashMap<>();
         commandMap.put("a", new AddMovieMenuCommand(controller));
         commandMap.put("l", new ListMoviesMenuCommand(controller));
