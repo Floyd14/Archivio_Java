@@ -1,4 +1,4 @@
-package interfaces;
+package storage;
 
 import lombok.extern.log4j.Log4j2;
 import model.Movie;
@@ -10,12 +10,12 @@ import java.util.List;
 @Log4j2
 public class MySQLStorage implements Storage {
 
-	private final String storageType;
+	private final StorageType storageType;
 
 	private Connection connect;
 
 	public MySQLStorage() {
-		this.storageType = "SQL";
+		this.storageType = StorageType.SQL;
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class MySQLStorage implements Storage {
 	}
 
 	@Override
-	public String getStorageType() {
+	public StorageType getStorageType() {
 		return storageType;
 	}
 }

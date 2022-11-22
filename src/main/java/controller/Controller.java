@@ -1,6 +1,6 @@
 package controller;
 
-import interfaces.StorageType;
+import storage.StorageType;
 import lombok.extern.log4j.Log4j2;
 import model.Movie;
 import service.ArchiveService;

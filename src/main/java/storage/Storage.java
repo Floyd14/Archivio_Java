@@ -1,4 +1,4 @@
-package interfaces;
+package storage;
 
 import model.Movie;
 
@@ -21,6 +21,6 @@ public interface Storage {
 
     public int getNextId();
 
-    public String getStorageType();
+    public StorageType getStorageType();
 
 }

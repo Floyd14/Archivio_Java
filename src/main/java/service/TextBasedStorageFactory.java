@@ -1,6 +1,6 @@
 package service;
 
-import interfaces.*;
+import storage.*;
 
 public class TextBasedStorageFactory implements StorageFactory {
 

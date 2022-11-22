@@ -1,4 +1,4 @@
-package interfaces;
+package storage;
 
 
 import com.mysql.cj.util.StringUtils;
@@ -17,15 +17,18 @@ import static java.nio.file.StandardOpenOption.APPEND;
 
 @Log4j2
 public class TxtStorage implements Storage {
-    private final String storageType;
 
-    private static BufferedReader bufferedReader;
-    private static BufferedWriter bufferedWriter;
+    private final StorageType storageType;
     private final File file;
 
+
+    public TxtStorage(File file) {
+        this.file = file;
+        this.storageType = StorageType.TXT;
+    }
+
     public TxtStorage() {
-        this.storageType = "TXT";
-        this.file = new File("file.txt");
+        this(new File("file.txt"));
     }
 
     @Override
@@ -43,7 +46,7 @@ public class TxtStorage implements Storage {
         movie.setId(getNextId());
         String movieString = serialize(movie);
         try {
-            bufferedWriter = Files.newBufferedWriter(
+            BufferedWriter bufferedWriter = Files.newBufferedWriter(
                     file.toPath(),
                     defaultCharset(),
                     APPEND);
@@ -55,12 +58,12 @@ public class TxtStorage implements Storage {
         }
     }
 
-    public void writeMovies(List<Movie> movies) {
+    private void writeMovies(List<Movie> movies) {
         String movieString = movies.stream()
                 .map(this::serialize)
                 .collect(Collectors.joining("\n"));
         try {
-            bufferedWriter = Files.newBufferedWriter(
+            BufferedWriter bufferedWriter = Files.newBufferedWriter(
                     file.toPath(),
                     defaultCharset());
             bufferedWriter.write(movieString + "\n");
@@ -75,7 +78,7 @@ public class TxtStorage implements Storage {
     public List<Movie> readMovies() {
         List<Movie> movies = null;
         try {
-            bufferedReader = Files.newBufferedReader(file.toPath());
+            BufferedReader bufferedReader = Files.newBufferedReader(file.toPath());
             movies = bufferedReader.lines()
                     .filter(line -> !StringUtils.isNullOrEmpty(line))
                     .map(this::deserialize)
@@ -108,12 +111,6 @@ public class TxtStorage implements Storage {
                 .filter(movie -> movie.getId() != movieId)
                 .collect(Collectors.toList());
 
-        int index = 0;
-        for (Movie movie: movies) {
-            movie.setId(index);
-            index++;
-        }
-
         writeMovies(movies);
     }
 
@@ -121,7 +118,7 @@ public class TxtStorage implements Storage {
     public int getNextId() {
         int id = 0;
         try {
-            bufferedReader = Files.newBufferedReader(file.toPath());
+            BufferedReader bufferedReader = Files.newBufferedReader(file.toPath());
             List<Integer> ids = bufferedReader.lines()
                     .filter(line -> !StringUtils.isNullOrEmpty(line))
                     .map(line -> Integer.parseInt(line.split(",")[0])).toList();
@@ -134,7 +131,7 @@ public class TxtStorage implements Storage {
     }
 
     @Override
-    public String getStorageType() {
+    public StorageType getStorageType() {
         return storageType;
     }
 
@@ -158,4 +155,6 @@ public class TxtStorage implements Storage {
             throw new IllegalArgumentException("Error in deserializing empty line");
         }
     }
+
+
 }

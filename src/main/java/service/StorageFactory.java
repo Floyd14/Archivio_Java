@@ -1,9 +1,6 @@
 package service;
 
-import interfaces.MemoryStorage;
-import interfaces.MySQLStorage;
-import interfaces.Storage;
-import interfaces.TxtStorage;
+import storage.Storage;
 
 public interface StorageFactory {
 	public Storage getStorage();

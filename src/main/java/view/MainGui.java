@@ -1,7 +1,7 @@
 package view;
 
 import controller.Controller;
-import interfaces.StorageType;
+import storage.StorageType;
 import model.Movie;
 
 import javax.swing.*;

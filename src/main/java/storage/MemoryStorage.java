@@ -1,4 +1,4 @@
-package interfaces;
+package storage;
 
 
 import lombok.extern.log4j.Log4j2;
@@ -11,13 +11,13 @@ import java.util.Map;
 
 @Log4j2
 public class MemoryStorage implements Storage {
-    private final String storageType;
+    private final StorageType storageType;
 
     private Map<Integer, Movie> moviesStorage;
    // private int counter;
 
     public MemoryStorage() {
-        this.storageType = "MEM";
+        this.storageType = StorageType.MEM;
         moviesStorage = new HashMap<>();
     }
 
@@ -52,7 +52,7 @@ public class MemoryStorage implements Storage {
     }
 
     @Override
-    public String getStorageType() {
+    public StorageType getStorageType() {
         return storageType;
     }
 
