@@ -14,7 +14,6 @@ public class MemoryStorage implements Storage {
     private final StorageType storageType;
 
     private Map<Integer, Movie> moviesStorage;
-   // private int counter;
 
     public MemoryStorage() {
         this.storageType = StorageType.MEM;

@@ -10,13 +10,17 @@ import java.util.List;
 @Log4j2
 public class MySQLStorage implements Storage {
 
+	private final String table;
 	private final StorageType storageType;
 
 	private Connection connect;
 
-	public MySQLStorage() {
+	public MySQLStorage(String table) {
+		this.table = table;
 		this.storageType = StorageType.SQL;
 	}
+
+	public MySQLStorage() {this("movies");}
 
 	@Override
 	public void connect() {
@@ -46,7 +50,7 @@ public class MySQLStorage implements Storage {
 	@Override
 	public void addMovie(Movie movie) {
 		try {
-			String queryString = "insert into movies (idmovies, titolo, autore, anno) " +
+			String queryString = "insert into " + table + " (idmovies, titolo, autore, anno) " +
 					"values (null,?,?,?);";
 			PreparedStatement st = connect.prepareStatement(queryString);
 
@@ -65,12 +69,12 @@ public class MySQLStorage implements Storage {
 	public List<Movie> readMovies() {
 		try {
 			List<Movie> movieList = new ArrayList<>();
-			String queryString = "select * from movies";
+			String queryString = "select * from " + table;
 			Statement statement = connect.createStatement();
 			ResultSet resultSet = statement.executeQuery(queryString);
 
 			while (resultSet.next()) {
-				int id = resultSet.getInt("idmovies");
+				int id = resultSet.getInt("id" + table);
 				String title = resultSet.getString("titolo");
 				String author = resultSet.getString("autore");
 				int year = resultSet.getInt("anno");
@@ -87,11 +91,11 @@ public class MySQLStorage implements Storage {
 	@Override
 	public void updateMovie(Movie movie) {
 		try {
-			String queryString = "update movies " +
+			String queryString = "update " + table + " " +
 					"set titolo = ? ," +
 					"autore = ? ," +
 					"anno  = ? " +
-					"where idmovies = ?;";
+					"where id" + table + " = ?;";
 			PreparedStatement st = connect.prepareStatement(queryString);
 
 			st.setString(1, movie.getTitle());
@@ -110,8 +114,8 @@ public class MySQLStorage implements Storage {
 	public void deleteMovie(int movieId) {
 		try {
 			String queryString = "delete " +
-					"from movies " +
-					"where idmovies = ?";
+					"from " + table + " " +
+					"where id" + table + " = ?";
 			PreparedStatement st = connect.prepareStatement(queryString);
 			st.setInt(1, movieId);
 			st.executeUpdate();
