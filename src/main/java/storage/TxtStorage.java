@@ -18,13 +18,11 @@ import static java.nio.file.StandardOpenOption.APPEND;
 @Log4j2
 public class TxtStorage implements IdentifierGeneratingStorage {
 
-    private final StorageType storageType;
     private final File file;
 
 
     public TxtStorage(File file) {
         this.file = file;
-        this.storageType = StorageType.TXT;
     }
 
     public TxtStorage() {
@@ -132,7 +130,7 @@ public class TxtStorage implements IdentifierGeneratingStorage {
 
     @Override
     public StorageType getStorageType() {
-        return storageType;
+        return StorageType.TXT;
     }
 
     private String serialize(Movie movie) {

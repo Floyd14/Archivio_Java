@@ -11,69 +11,66 @@ import java.util.Map;
 
 @Log4j2
 public class MemoryStorage implements IdentifierGeneratingStorage {
-    private final StorageType storageType;
-    private Map<Integer, Movie> moviesStorage;
+	private Map<Integer, Movie> moviesStorage;
 
-    public MemoryStorage() {
-        this.storageType = StorageType.MEM;
-        moviesStorage = new HashMap<>();
-    }
+	public MemoryStorage() {
+		moviesStorage = new HashMap<>();
+	}
 
-    @Override
-    public void connect() {
-        // non serve per la memory storage
-    }
+	@Override
+	public void connect() {
+		// non serve per la memory storage
+	}
 
-    @Override
-    public void disconnect() {
-        // non serve per la memory storage
-    }
+	@Override
+	public void disconnect() {
+		// non serve per la memory storage
+	}
 
-    @Override
-    public void addMovie(Movie movie) {
+	@Override
+	public void addMovie(Movie movie) {
 
-        movie.setId(getNextId());
-        moviesStorage.put(movie.getId(), movie);
-    }
+		movie.setId(getNextId());
+		moviesStorage.put(movie.getId(), movie);
+	}
 
-    @Override
-    public void deleteMovie(int movieId) {
+	@Override
+	public void deleteMovie(int movieId) {
 
-        moviesStorage.remove(movieId);
-        refreshMemoryStorage();
-    }
+		moviesStorage.remove(movieId);
+		refreshMemoryStorage();
+	}
 
-    @Override
-    public int getNextId() {
-        return moviesStorage.size();
-    }
+	@Override
+	public int getNextId() {
+		return moviesStorage.size();
+	}
 
-    @Override
-    public StorageType getStorageType() {
-        return storageType;
-    }
+	@Override
+	public StorageType getStorageType() {
+		return StorageType.MEM;
+	}
 
-    @Override
-    public void updateMovie(Movie movie) {
+	@Override
+	public void updateMovie(Movie movie) {
+		moviesStorage.put(movie.getId(), movie);
+	}
 
-        moviesStorage.put(movie.getId(), movie);
-    }
+	@Override
+	public List<Movie> readMovies() {
 
-    @Override
-    public List<Movie> readMovies() {
+		return new ArrayList<>(moviesStorage.values());
+	}
 
-        return new ArrayList<>(moviesStorage.values());
-    }
-
-    private void refreshMemoryStorage() {
-        Map<Integer, Movie> updatedMoviesStorage = new HashMap<>();
-        int i = 0;
-        for (Movie movie : moviesStorage.values()) {
-            movie.setId(i);
-            updatedMoviesStorage.put(i, movie);
-            i++;
-        }
-        moviesStorage = updatedMoviesStorage;
-    }
+	private void refreshMemoryStorage() {
+		Map<Integer, Movie> updatedMoviesStorage = new HashMap<>();
+		int i = 0;
+		for (Movie movie : moviesStorage.values()) {
+			movie.setId(i);
+			updatedMoviesStorage.put(i, movie);
+			i++;
+		}
+		moviesStorage = updatedMoviesStorage;
+	}
 
 }

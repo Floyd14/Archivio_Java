@@ -2,22 +2,22 @@ package storage;
 
 import model.Movie;
 
-
 import java.util.List;
 
 public interface Storage {
 
-    void connect();
+	void connect();
 
-    void disconnect();
+	void disconnect();
 
-    void addMovie(Movie movie);
+	void addMovie(Movie movie);
 
-    List<Movie> readMovies();
+	List<Movie> readMovies();
 
-    void updateMovie(Movie movie);
+	void updateMovie(Movie movie);
 
-    void deleteMovie(int movieId);
-    public StorageType getStorageType();
+	void deleteMovie(int movieId);
+
+	public StorageType getStorageType();
 
 }

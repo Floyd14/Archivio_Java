@@ -11,13 +11,11 @@ import java.util.List;
 public class MySQLStorage implements Storage {
 
 	private final String table;
-	private final StorageType storageType;
 
 	private Connection connect;
 
 	public MySQLStorage(String table) {
 		this.table = table;
-		this.storageType = StorageType.SQL;
 	}
 
 	public MySQLStorage() {this("movies");}
@@ -127,7 +125,7 @@ public class MySQLStorage implements Storage {
 
 	@Override
 	public StorageType getStorageType() {
-		return storageType;
+		return StorageType.SQL;
 	}
 }
 
