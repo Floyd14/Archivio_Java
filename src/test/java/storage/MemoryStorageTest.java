@@ -23,29 +23,29 @@ class MemoryStorageTest {
     @Test
     void addMovie() {
         List<Movie> movies = storage.readMovies();
-        assertEquals(0, movies.size());
-        storage.addMovie(new Movie("titolo1", "autore1", 2001));
+        assertEquals(2, movies.size());
+        storage.addMovie(new Movie("titolo3", "autore3", 2003));
 
         movies = storage.readMovies();
-        assertEquals(1, movies.size());
+        assertEquals(3, movies.size());
 
-        Movie firstMovie = movies.get(0);
-        assertEquals(0, firstMovie.getId());
-        assertEquals(2001, firstMovie.getYear());
-        assertEquals("autore1", firstMovie.getAuthor());
-        assertEquals("titolo1", firstMovie.getTitle());
+        Movie firstMovie = movies.get(movies.size()-1);
+        assertEquals(2, firstMovie.getId());
+        assertEquals(2003, firstMovie.getYear());
+        assertEquals("autore3", firstMovie.getAuthor());
+        assertEquals("titolo3", firstMovie.getTitle());
     }
 
     @Test
     void deleteMovie() {
 
         List<Movie> movies = storage.readMovies();
-        assertEquals(1, movies.size());
+        assertEquals(2, movies.size());
 
         storage.deleteMovie(0);
         movies = storage.readMovies();
 
-        assertEquals(0, movies.size());
+        assertEquals(1, movies.size());
     }
 
     @Test
