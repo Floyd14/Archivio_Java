@@ -18,9 +18,6 @@ public interface Storage {
     void updateMovie(Movie movie);
 
     void deleteMovie(int movieId);
-
-    public int getNextId();
-
     public StorageType getStorageType();
 
 }

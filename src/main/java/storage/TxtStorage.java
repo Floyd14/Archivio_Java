@@ -16,7 +16,7 @@ import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.StandardOpenOption.APPEND;
 
 @Log4j2
-public class TxtStorage implements Storage {
+public class TxtStorage implements IdentifierGeneratingStorage {
 
     private final StorageType storageType;
     private final File file;

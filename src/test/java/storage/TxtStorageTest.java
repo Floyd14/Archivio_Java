@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TxtStorageTest {
 
     private File file;
+    private IdentifierGeneratingStorage storage;
 
     @AfterEach
     void deleteTmpFile(){
@@ -46,11 +47,11 @@ class TxtStorageTest {
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
+        storage = new TxtStorage(file);
     }
 
     @Test
     void addMovie() {
-        Storage storage = new TxtStorage(file);
         List<Movie> movies = storage.readMovies();
 
         assertEquals(2, movies.size());
@@ -65,7 +66,6 @@ class TxtStorageTest {
 
     @Test
     void readMovies() {
-        Storage storage = new TxtStorage(file);
         List<Movie> movies = storage.readMovies();
         assertEquals(2, movies.size());
 
@@ -84,7 +84,6 @@ class TxtStorageTest {
 
     @Test
     void updateMovie() {
-        Storage storage = new TxtStorage(file);
         List<Movie> movies = storage.readMovies();
         assertEquals(2, movies.size());
 
@@ -120,5 +119,12 @@ class TxtStorageTest {
     void getStorageType() {
         Storage storage = new TxtStorage(file);
         assertEquals(StorageType.TXT, storage.getStorageType());
+    }
+
+    @Test
+    void getNextId() {
+        assertEquals(2, storage.getNextId());
+        storage.deleteMovie(1);
+        assertEquals(1, storage.getNextId());
     }
 }

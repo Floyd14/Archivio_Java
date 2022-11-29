@@ -10,9 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 @Log4j2
-public class MemoryStorage implements Storage {
+public class MemoryStorage implements IdentifierGeneratingStorage {
     private final StorageType storageType;
-
     private Map<Integer, Movie> moviesStorage;
 
     public MemoryStorage() {
@@ -46,7 +45,6 @@ public class MemoryStorage implements Storage {
 
     @Override
     public int getNextId() {
-
         return moviesStorage.size();
     }
 
