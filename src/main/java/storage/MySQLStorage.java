@@ -25,7 +25,7 @@ public class MySQLStorage implements Storage {
 		try {
 			if (connect == null || connect.isClosed())
 				connect = DriverManager.getConnection(
-						"jdbc:mysql://localhost:3306/test",
+						"jdbc:mysql://localhost:3306/Prod",
 						"root",
 						"Ytrewq1!"
 				);
@@ -48,7 +48,7 @@ public class MySQLStorage implements Storage {
 	@Override
 	public void addMovie(Movie movie) {
 		try {
-			String queryString = "insert into " + table + " (idmovies, titolo, autore, anno) " +
+			String queryString = "insert into " + table + " (id, titolo, autore, anno) " +
 					"values (null,?,?,?);";
 			PreparedStatement st = connect.prepareStatement(queryString);
 
@@ -72,7 +72,7 @@ public class MySQLStorage implements Storage {
 			ResultSet resultSet = statement.executeQuery(queryString);
 
 			while (resultSet.next()) {
-				int id = resultSet.getInt("id" + table);
+				int id = resultSet.getInt("id");
 				String title = resultSet.getString("titolo");
 				String author = resultSet.getString("autore");
 				int year = resultSet.getInt("anno");
@@ -93,7 +93,7 @@ public class MySQLStorage implements Storage {
 					"set titolo = ? ," +
 					"autore = ? ," +
 					"anno  = ? " +
-					"where id" + table + " = ?;";
+					"where id" + " = ?;";
 			PreparedStatement st = connect.prepareStatement(queryString);
 
 			st.setString(1, movie.getTitle());
@@ -113,7 +113,7 @@ public class MySQLStorage implements Storage {
 		try {
 			String queryString = "delete " +
 					"from " + table + " " +
-					"where id" + table + " = ?";
+					"where id" + " = ?";
 			PreparedStatement st = connect.prepareStatement(queryString);
 			st.setInt(1, movieId);
 			st.executeUpdate();
